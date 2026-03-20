@@ -1,0 +1,73 @@
+#!/bin/bash
+
+show_help() {
+    echo "Usage: image-post [options] <image-files>"
+    echo "Options:"
+    echo "  -h Show help message"
+    echo "  -a album key to  (default current folder)use"
+    echo "  -o output folder"
+    echo "  -e extension (default md)"
+    echo "  -i if present, also create an index album file"
+    echo "  -k album layout to use (default layouts/album.njk), ignored if -i not used"
+    echo "  -t title of album, ignored if -i not used"
+    echo "  -f featured image of album, ignored if -i not used"
+    echo "  -b body of album, ignored if -i not used"
+}
+
+album=""
+output="."
+layout="layouts/photo.njk"
+ext="md"
+index=
+albumlayout="layouts/album.njk"
+title=
+body=
+featured=
+OPTIND=1
+while getopts "hs:a:o:l:e:ik:t:b:f:" opt; do
+    case $opt in
+        h) show_help; exit 0 ;;
+        a) album="$OPTARG" ;;
+        o) output="$OPTARG" ;;
+        l) layout="$OPTARG" ;;
+        e) ext="$OPTARG" ;;
+        i) index="true" ;;
+        k) albumlayout="$OPTARG" ;;
+        t) title="$OPTARG" ;;
+        f) featured="$OPTARG" ;;
+        b) body="$OPTARG" ;;
+        \?) echo "Invalid option: -$OPTARG" >&2; exit 1 ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+mkdir -p $output
+
+for f in "$@"
+do
+    base=$(basename "$f")
+    bare="${base%.*}" 
+    barelow="${bare,,}"
+    path="$output/$barelow.$ext"
+   
+    echo "---" > $path
+    echo "layout: \"$layout\"" >> $path
+    echo "parent: \"$album\"" >> $path
+    echo "image: \"/$f\"" >> $path
+    echo "alt: \"\"" >> $path
+    echo "---" >> $path
+done
+
+if ${index}; then
+    path="$output/index.$ext"
+    echo "---" > $path
+    echo "title: \"$title\"" >> $path
+    echo "featured: \"/$featured\"" >> $path
+    echo "layout: \"$albumlayout\"" >> $path
+    echo "key: \"$album\"" >> $path
+    echo "album: true" >> $path
+    echo "---" >> $path
+    echo >> $path
+    echo "$body" >> $path
+fi

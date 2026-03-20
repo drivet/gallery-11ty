@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html lang="en" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_data/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_data/icon-32x32.png">
+    <link href="/css/utils.css" rel="stylesheet">
+    <link href="/css/theme.css" rel="stylesheet">
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/tablet.css" rel="stylesheet">
+    <link href="/css/desktop.css" rel="stylesheet">
+  </head>
+  <body>
+    <header class="header">
+      <nav class="main-nav row">
+        <div><a href="/">Desmond Rivet</a></div>
+        <div class="row__item--right"><a href="/about">About</a></div>
+      </nav>
+      {% if navigation %}
+        {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
+        {% if navPages | length > 0 %}
+          <ul class="breadcrumbs">
+            {%- for entry in navPages %}
+              <li class="breadcrumbs__item">
+                <a href="{{ entry.url }}">{{ entry.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {% endif %}
+      {% endif %}
+      
+      {% if title %}  
+        <h1>{{title}}</h1>
+      {% endif %}
+    </header>
+    <main class="main">  
+      {{content | safe}}
+    </main>
+  </body>
+</html>

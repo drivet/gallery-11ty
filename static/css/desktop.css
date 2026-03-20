@@ -1,0 +1,42 @@
+@media only screen and (min-width : 1024px) {
+    :root {
+      --width: 800px; 
+    }
+    h1 {
+      font-size: 1.75em;
+    }
+    
+    h2 {
+      font-size: 1.3125em;
+    }
+    
+    h3 {
+      font-size: 1.02375em;
+    }
+    
+    h4 {
+      font-size: 0.875em;
+    }
+    
+    h5 {
+      font-size: 0.72625em;
+    }
+    
+    h6 {
+      font-size: 0.58625em;
+    }
+
+    .header { 
+      max-width: var(--width);
+    }
+    
+    .main { 
+      max-width: var(--width);
+    }    
+    
+    .gallery-list {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+    }   
+}

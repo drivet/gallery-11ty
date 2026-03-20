@@ -1,0 +1,4 @@
+node_modules/
+src/photos/
+pending_photos/
+_site/

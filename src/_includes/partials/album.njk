@@ -1,0 +1,10 @@
+{% macro album(title, url, featured) %}
+<article class="album__wrapper">
+  <header class="album__header" >
+    <h2><a href="{{url}}">{{title}}</a></h2>
+  </header>
+  {% if featured %}
+    <img class="album__image" src="{{featured}}" alt=""/>
+  {% endif %}
+</article>
+{% endmacro %}

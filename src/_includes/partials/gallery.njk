@@ -1,0 +1,10 @@
+{{ count }} photos
+<ul class="gallery-list">
+  {% asyncEach a in navPages %}      
+  <li class="gallery-list__item">
+    <a href="{{a.url}}">
+      <img class="gallery-list__image" src="{{a.image}}" width=200 alt=""/>
+    </a>
+  </li>
+  {% endeach %}
+</ul>

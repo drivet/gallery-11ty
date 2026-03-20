@@ -1,0 +1,14 @@
+---
+layout: layouts/base
+---
+{% from "partials/album.njk" import album %}
+{{ content | safe }}
+{% set count = collections.rootAlbums | length %}
+{{ count }} albums
+<ul class="album-list">
+  {% asyncEach a in collections.rootAlbums  %}      
+  <li class="album-list__album-item">
+    {{ album(a.data.title, a.url, a.data.featured) }}
+  </li>
+  {% endeach %}
+</ul>

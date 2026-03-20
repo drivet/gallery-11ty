@@ -1,0 +1,9 @@
+{% from "partials/album.njk" import album %}
+{{ count }} albums
+<ul class="album-list">
+  {% asyncEach a in navPages %}      
+  <li class="album-list__album-item">
+    {{ album(a.title, a.url, a.featured) }}
+  </li>
+  {% endeach %}
+</ul>

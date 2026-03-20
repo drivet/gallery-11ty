@@ -1,0 +1,19 @@
+@media only screen and (min-width : 768px) {
+  :root {
+    --width: 750px;
+  }
+
+  .main { 
+    max-width: var(--width);
+  }
+  
+  .header { 
+    max-width: var(--width);
+  }
+  
+  .gallery-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+}

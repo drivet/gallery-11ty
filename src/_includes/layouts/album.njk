@@ -1,0 +1,17 @@
+---
+permalink: "{{ key }}/index.html"
+layout: layouts/base
+navigation: true
+---
+{{ content | safe }}
+{% set navPages = collections.albumsAndImages |
+        eleventyNavigation(eleventyNavigation.key) |
+        navToPage(collections.albumByKey) %}
+{% set count = navPages | length %}
+{% set isLeaf = not navPages[0].album  %}
+
+{% if isLeaf %}
+  {% include "partials/gallery.njk" %}
+{% else %}
+  {% include "partials/subalbums.njk" %}
+{% endif %}
