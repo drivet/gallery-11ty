@@ -7,24 +7,24 @@ export default async function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
 
   eleventyConfig.addCollection("albumsAndImages", (collection) =>
-    collection.getAll().filter(p => p.data.album || p.data.image)
+    collection.getFilteredByGlob("src/albums/**/*.md")
   );
 
   eleventyConfig.addCollection("rootAlbums", (collection) =>
-    collection.getAll().filter(p => !p.data.parent && p.data.album)
+    collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.parent)
   );
   
   eleventyConfig.addCollection('albumByKey', (collection) =>
-    _.keyBy(collection.getAll().filter(p => p.data.album || p.data.image), p => p.data.key)
+    _.keyBy(collection.getFilteredByGlob("src/albums/**/*.md"), p => p.data.key)
   );
 
-  eleventyConfig.addFilter('navToPage', (navNodes, pageByKey) => {
+  eleventyConfig.addFilter('navToPage', (navNodes, albumByKey) => {
     navNodes.forEach(n => {
       if (!n.key) {
         return;
       }
       
-      const r = pageByKey[n.key];
+      const r = albumByKey[n.key];
       if (!r || !r.data) {
         return;
       }
@@ -35,6 +35,12 @@ export default async function(eleventyConfig) {
       n.content = r.content;
     });
     return navNodes;
+  });
+
+  eleventyConfig.addFilter('defaultPhotoTitle', (albumNodes, albumByKey, photoKey, parentKey) => {
+    const photoIdx = albumNodes.findIndex(e => e.key === photoKey ) + 1;
+    const parentNode = albumByKey[parentKey];
+    return `${parentNode.data.title} - ${photoIdx} / ${albumNodes.length}`;
   });
 
   eleventyConfig.addFilter("cdump", o => inspect(o));

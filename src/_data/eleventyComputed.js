@@ -1,8 +1,8 @@
 export default {
-  key: (data) => data.key || data.title || data.image,
+  key: (data) => data.key || data.image,
   eleventyNavigation: {
-	key: (data) => data.key,
-	parent: (data) => data.parent,
+    key: (data) => data.key,
+    parent: (data) => data.parent,
     title: (data) => data.title,
   },
 };

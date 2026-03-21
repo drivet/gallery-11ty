@@ -18,24 +18,26 @@
         <div><a href="/">Desmond Rivet</a></div>
         <div class="row__item--right"><a href="/about">About</a></div>
       </nav>
-      {% if navigation %}
-        {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
-        {% if navPages | length > 0 %}
-          <ul class="breadcrumbs">
-            {%- for entry in navPages %}
-              <li class="breadcrumbs__item">
-                <a href="{{ entry.url }}">{{ entry.title }}</a>
-              </li>
-            {%- endfor -%}
-          </ul>
-        {% endif %}
-      {% endif %}
-      
-      {% if title %}  
-        <h1>{{title}}</h1>
-      {% endif %}
     </header>
-    <main class="main">  
+    <main class="main">
+      <header>
+        {% if navigation %}
+          {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
+          {% if navPages | length > 0 %}
+            <ul class="breadcrumbs">
+              {%- for entry in navPages %}
+                <li class="breadcrumbs__item">
+                  <a href="{{ entry.url }}">{{ entry.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {% endif %}
+        {% endif %}
+        
+        {% if title %}  
+          <h1>{{title}}</h1>
+        {% endif %}
+      </header>
       {{content | safe}}
     </main>
   </body>

@@ -2,5 +2,7 @@
 permalink: "{{parent}}/{{page.fileSlug}}.html"
 layout: layouts/base
 navigation: true
+eleventyComputed:
+  title: "{{  collections.albumsAndImages | eleventyNavigation(parent) | defaultPhotoTitle(collections.albumByKey, key, parent) }}"
 ---    
 <img class="image-photo" src="{{ image }}" alt="{{ alt }}" />
