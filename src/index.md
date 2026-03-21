@@ -1,5 +1,5 @@
 ---
 layout: "layouts/top.njk"
 permalink: "/"
-title: "Desmond's Photo Albums"
+title: "All Albums"
 ---

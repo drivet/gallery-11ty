@@ -1,7 +1,13 @@
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import eleventyNavigationPlugin from "@11ty/eleventy-navigation";
 import { inspect } from "util";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 import _ from 'lodash';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default async function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
@@ -18,6 +24,9 @@ export default async function(eleventyConfig) {
     _.keyBy(collection.getFilteredByGlob("src/albums/**/*.md"), p => p.data.key)
   );
 
+  eleventyConfig.addFilter("date", d =>
+    dayjs(d).tz('America/Montreal').format('MMM D, YYYY, h:mm A Z'));
+ 
   eleventyConfig.addFilter('navToPage', (navNodes, albumByKey) => {
     navNodes.forEach(n => {
       if (!n.key) {

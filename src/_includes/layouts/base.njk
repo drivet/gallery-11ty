@@ -6,39 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon_data/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon_data/icon-32x32.png">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto|Open+Sans&display=swap" rel="stylesheet"/>
     <link href="/css/utils.css" rel="stylesheet">
     <link href="/css/theme.css" rel="stylesheet">
     <link href="/css/site.css" rel="stylesheet">
     <link href="/css/tablet.css" rel="stylesheet">
+    <link href="/css/laptop.css" rel="stylesheet">
     <link href="/css/desktop.css" rel="stylesheet">
   </head>
   <body>
-    <header class="header">
+    <header class="main-header">
       <nav class="main-nav row">
-        <div><a href="/">Desmond Rivet</a></div>
-        <div class="row__item--right"><a href="/about">About</a></div>
+        <div><a class="main-nav__link" href="/">Desmond Rivet Photography</a></div>
+        <div class="row__item--right"><a class="main-nav__link" href="/about">About</a></div>
       </nav>
     </header>
     <main class="main">
-      <header>
-        {% if navigation %}
-          {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
-          {% if navPages | length > 0 %}
-            <ul class="breadcrumbs">
-              {%- for entry in navPages %}
-                <li class="breadcrumbs__item">
-                  <a href="{{ entry.url }}">{{ entry.title }}</a>
-                </li>
-              {%- endfor -%}
-            </ul>
+      <article class="entry">
+        <header class="entry__header">
+          <span class="entry__published dt-published">{{ date | date  }}</span>
+          {% if title %}  
+            <h1 class="entry__title">{{title}}</h1>
           {% endif %}
-        {% endif %}
-        
-        {% if title %}  
-          <h1>{{title}}</h1>
-        {% endif %}
-      </header>
-      {{content | safe}}
+          {% if navigation %}
+            {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
+            {% if navPages | length > 0 %}
+              Posted in 
+              <ul class="breadcrumbs">
+                {%- for entry in navPages %}
+                  <li class="breadcrumbs__item">
+                    <a href="{{ entry.url }}">{{ entry.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {% endif %}
+          {% endif %}
+        </header>
+        {{content | safe}}
+      <article>
     </main>
   </body>
 </html>

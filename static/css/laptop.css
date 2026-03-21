@@ -1,6 +1,6 @@
-@media only screen and (min-width : 1281px) {
+@media only screen and (min-width : 1025px) {
     :root {
-      --width: 1024px; 
+      --width: 800px; 
     }
     h1 {
       font-size: 1.75em;
@@ -37,12 +37,12 @@
     .gallery-list {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 1em;
+      gap: 5px;
     }
-
+    
     .album-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1em;
-    }
+    }  
 }
