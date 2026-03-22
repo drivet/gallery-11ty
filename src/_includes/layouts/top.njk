@@ -2,13 +2,18 @@
 layout: layouts/base
 ---
 {% from "partials/album.njk" import album %}
-{{ content | safe }}
-{% set count = collections.rootAlbums | length %}
-{{ count }} albums
-<ul class="album-list">
-  {% asyncEach a in collections.rootAlbums  %}      
-  <li class="album-list__album-item">
-    {{ album(a.data.title, a.url, a.data.featured) }}
-  </li>
+<article class="entry">
+  <header class="entry__header">
+    <h1 class="entry__title">{{title}}</h1>
+  </header> 
+  {{ content | safe }}
+  {% set count = collections.rootAlbums | length %}
+  {{ count }} albums
+  <ul class="album-list">
+    {% asyncEach a in collections.rootAlbums | sort(true, false, 'date')  %}      
+    <li class="album-list__album-item">
+      {{ album(a.data.title, a.url, a.data.featured) }}
+    </li>
   {% endeach %}
-</ul>
+  </ul>
+<article>

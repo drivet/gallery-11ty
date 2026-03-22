@@ -30,6 +30,10 @@
       max-width: var(--width);
     }
     
+    .main-footer { 
+      max-width: var(--width);
+    }
+    
     .main { 
       max-width: var(--width);
     }    

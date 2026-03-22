@@ -3,15 +3,42 @@ permalink: "{{ key }}/index.html"
 layout: layouts/base
 navigation: true
 ---
-{{ content | safe }}
-{% set navPages = collections.albumsAndImages |
+{% from "partials/album.njk" import album %}
+<article class="entry">
+  <header class="entry__header">
+    <span class="entry__published dt-published">{{ date | date  }}</span>
+    <h1 class="entry__title">{{title}}</h1>
+    {% include "partials/navalbum.njk" %}
+  </header>
+  {{ content | safe }}
+  {% set navPages = collections.albumsAndImages |
         eleventyNavigation(eleventyNavigation.key) |
         navToPage(collections.albumByKey) %}
-{% set count = navPages | length %}
-{% set isLeaf = not navPages[0].album  %}
+  {% set count = navPages | length %}
+ 
+  {% if navPages[0].image %}
+   
+    {{ count }} photos
+    <ul class="gallery-list">
+      {% asyncEach a in navPages %}      
+      <li class="gallery-list__item">
+        <a href="{{a.url}}">
+          <img class="gallery-list__image" src="{{a.image}}" width=200 alt=""/>
+        </a>
+      </li>
+       {% endeach %}
+    </ul>
+    
+  {% else %}
 
-{% if isLeaf %}
-  {% include "partials/gallery.njk" %}
-{% else %}
-  {% include "partials/subalbums.njk" %}
-{% endif %}
+    {{ count }} albums
+    <ul class="album-list">
+      {% asyncEach a in navPages | sort(true, false, 'date') %}      
+      <li class="album-list__album-item">
+        {{ album(a.title, a.url, a.featured) }}
+      </li>
+      {% endeach %}
+    </ul>
+    
+  {% endif %}
+<article>

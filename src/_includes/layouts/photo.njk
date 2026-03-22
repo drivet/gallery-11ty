@@ -4,5 +4,11 @@ layout: layouts/base
 navigation: true
 eleventyComputed:
   title: "{{  collections.albumsAndImages | eleventyNavigation(parent) | defaultPhotoTitle(collections.albumByKey, key, parent) }}"
----    
-<img class="image-photo" src="{{ image }}" alt="{{ alt }}" />
+---
+<article class="entry">
+  <header class="entry__header">
+    <h1 class="entry__title">{{title}}</h1>
+    {% include "partials/navalbum.njk" %}
+  </header>
+  <img class="image-photo" src="{{ image }}" alt="{{ alt }}" />
+<article>

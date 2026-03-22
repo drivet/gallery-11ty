@@ -1,0 +1,13 @@
+{% if navigation %}
+  {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
+  {% if navPages | length > 0 %}
+    Posted in 
+    <ul class="breadcrumbs">
+      {%- for entry in navPages %}
+        <li class="breadcrumbs__item">
+          <a href="{{ entry.url }}">{{ entry.title }}</a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {% endif %}
+{% endif %}

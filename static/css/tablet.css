@@ -11,6 +11,10 @@
     max-width: var(--width);
   }
   
+  .main-footer { 
+    max-width: var(--width);
+  }
+  
   .gallery-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

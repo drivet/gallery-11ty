@@ -18,32 +18,16 @@
     <header class="main-header">
       <nav class="main-nav row">
         <div><a class="main-nav__link" href="/">Desmond Rivet Photography</a></div>
-        <div class="row__item--right"><a class="main-nav__link" href="/about">About</a></div>
+        <div class="row__item--right"><a class="main-nav__link" href="/about.html">About</a></div>
       </nav>
     </header>
     <main class="main">
-      <article class="entry">
-        <header class="entry__header">
-          <span class="entry__published dt-published">{{ date | date  }}</span>
-          {% if title %}  
-            <h1 class="entry__title">{{title}}</h1>
-          {% endif %}
-          {% if navigation %}
-            {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
-            {% if navPages | length > 0 %}
-              Posted in 
-              <ul class="breadcrumbs">
-                {%- for entry in navPages %}
-                  <li class="breadcrumbs__item">
-                    <a href="{{ entry.url }}">{{ entry.title }}</a>
-                  </li>
-                {%- endfor -%}
-              </ul>
-            {% endif %}
-          {% endif %}
-        </header>
-        {{content | safe}}
-      <article>
+      {{content | safe}}
     </main>
+    <footer class="main-footer">
+      <div class="main-footer__content">
+        <div>&copy;2026 by <a href="/">{{ global.AUTHOR }}</a></div>
+      </div>
+    </footer>
   </body>
 </html>

@@ -38,6 +38,7 @@ export default async function(eleventyConfig) {
         return;
       }
 
+      n.date = r.data.date;
       n.album = r.data.album;
       n.featured = r.data.featured;
       n.image = r.data.image;
@@ -49,7 +50,7 @@ export default async function(eleventyConfig) {
   eleventyConfig.addFilter('defaultPhotoTitle', (albumNodes, albumByKey, photoKey, parentKey) => {
     const photoIdx = albumNodes.findIndex(e => e.key === photoKey ) + 1;
     const parentNode = albumByKey[parentKey];
-    return `${parentNode.data.title} - ${photoIdx} / ${albumNodes.length}`;
+    return `${parentNode.data.title} / ${photoIdx} of ${albumNodes.length}`;
   });
 
   eleventyConfig.addFilter("cdump", o => inspect(o));
