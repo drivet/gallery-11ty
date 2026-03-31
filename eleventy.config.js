@@ -16,6 +16,10 @@ export default async function(eleventyConfig) {
     collection.getFilteredByGlob("src/albums/**/*.md")
   );
 
+  eleventyConfig.addCollection("albums", (collection) =>
+    collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.image)
+  );
+  
   eleventyConfig.addCollection("rootAlbums", (collection) =>
     collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.parent)
   );
@@ -66,6 +70,8 @@ export default async function(eleventyConfig) {
 	// output image widths
 	widths: [480, 800, 1200],
 
+    fixOrientation: true,
+    
 	// optional, attributes assigned on <img> nodes override these values
 	htmlOptions: {
 	  imgAttributes: {

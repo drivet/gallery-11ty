@@ -1,5 +1,7 @@
 {% if navigation %}
-  {% set navPages = collections.albumsAndImages | eleventyNavigationBreadcrumb(eleventyNavigation.key) %}
+  {% if eleventyNavigation.parent %}
+  {% set navPages = collections.albums | eleventyNavigationBreadcrumb(eleventyNavigation.parent, {includeSelf: true}) %}
+  {% endif %}
   {% if navPages | length > 0 %}
     Posted in 
     <ul class="breadcrumbs">
