@@ -111,6 +111,7 @@ h6 {
   list-style: none; 
   padding-left: 0;
   margin: 0;
+  gap: 0.5em;
 }
 
 .album__image {
@@ -124,7 +125,7 @@ h6 {
   margin: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
+  gap: 0.5em;
 }
 
 .gallery-list__item {

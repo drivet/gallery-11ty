@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run dev",
     "dev": "ELEVENTY_ENV=development eleventy --serve",
+    "devp": "ELEVENTY_ENV=development DEBUG=Eleventy:Benchmark* eleventy --serve",
     "build": "ELEVENTY_ENV=production eleventy",
     "image-post": "node ./scripts/image-post.js"
   },

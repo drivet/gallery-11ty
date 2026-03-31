@@ -5,8 +5,7 @@ A system for creating photo albums in Eleventy.
 ## Albums
 
 An album is a markdown file with the normal trappings of a post, like a date
-and a title, except that an album must contain a boolean ""album" flag marked
-as true.
+and a title, except that an album must be under albums/
 
 An album also:
 

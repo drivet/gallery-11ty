@@ -6,6 +6,7 @@ show_help() {
     echo "  -h Show help message"
     echo "  -a album key to use (default current folder)"
     echo "  -o output folder"
+    echo "  -r src root (default empty)"
     echo "  -e extension (default md)"
     echo "  -i if present, also create an index album file"
     echo "  -k album layout to use (default layouts/album.njk), ignored if -i not used"
@@ -17,6 +18,7 @@ show_help() {
 
 album=""
 output="."
+srcroot=
 layout="layouts/photo.njk"
 ext="md"
 index=
@@ -26,11 +28,12 @@ parent=
 body=
 featured=
 OPTIND=1
-while getopts "hs:a:o:l:e:ik:t:p:b:f:" opt; do
+while getopts "hs:a:o:r:l:e:ik:t:p:b:f:" opt; do
     case $opt in
         h) show_help; exit 0 ;;
         a) album="$OPTARG" ;;
         o) output="$OPTARG" ;;
+        r) srcroot="$OPTARG" ;;
         l) layout="$OPTARG" ;;
         e) ext="$OPTARG" ;;
         i) index="true" ;;
@@ -50,18 +53,21 @@ mkdir -p $output
 d=$(date "+%FT%T%z")
 for f in "$@"
 do
-    base=$(basename "$f")
+    if [[ -n "$srcroot" ]]; then
+        relf="${f#$srcroot}"
+    fi
+    base=$(basename "$relf")
     bare="${base%.*}" 
     barelow="${bare,,}"
     path="$output/$barelow.$ext"
    
-    echo "---" > $path
-    echo "date: $d" >> $path
-    echo "layout: \"$layout\"" >> $path
-    echo "parent: \"$album\"" >> $path
-    echo "image: \"/$f\"" >> $path
-    echo "alt: \"\"" >> $path
-    echo "---" >> $path
+    echo "---" > "$path"
+    echo "date: $d" >> "$path"
+    echo "layout: \"$layout\"" >> "$path"
+    echo "parent: \"$album\"" >> "$path"
+    echo "image: \"/$relf\"" >> "$path"
+    echo "alt: \"\"" >> "$path"
+    echo "---" >> "$path"
 done
 
 if ${index}; then
