@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
 import _ from 'lodash';
+import Image from "@11ty/eleventy-img";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -21,7 +22,7 @@ export default async function(eleventyConfig) {
   );
   
   eleventyConfig.addCollection("rootAlbums", (collection) =>
-    collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.parent)
+    collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.parent && !p.data.image)
   );
   
   eleventyConfig.addCollection('albumByKey', (collection) =>
@@ -61,26 +62,44 @@ export default async function(eleventyConfig) {
   
   eleventyConfig.addPassthroughCopy({"static": "."});
 
-  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-    transformOnRequest: false,
-    
-	// output image formats
-	formats: ["jpeg"],
+  async function makeImage(src, width) {
+    // the src parameter begins with /photo/* which worked when the HTML
+    // transform plugin was used, but which doesn't work in this context.
+    // We can compensate by tacking on a src/
+    return await Image("src/"+src, {
+      widths: [width],
+      formats: ["jpeg"],
+    }); 
+  }
+  
+  async function imgShortcode(src, alt, cls, width) {
+    const data = await makeImage(src, width);
+    const allCls = data['jpeg'][0].height > data['jpeg'][0].width ? `${cls} portrait` : cls;
+    const attributes = {
+      alt,
+      class: allCls,
+      sizes: "(width < 600px) 480px, 800px",
+      loading: "lazy",
+      decoding: "async",
+    };
+    return Image.generateHTML(data, attributes);
+  }
 
-	// output image widths
-	widths: [480, 800, 1200],
+  async function largeImage(src, alt, cls) {
+    return await imgShortcode(src, alt, cls, 1200);
+  }
 
-    fixOrientation: true,
-    
-	// optional, attributes assigned on <img> nodes override these values
-	htmlOptions: {
-	  imgAttributes: {
-		loading: "lazy",
-		decoding: "async",
-        sizes: "(width < 600px) 480px, 800px"
-	  }
-	}
-  });
+  async function mediumImage(src, alt, cls) {
+    return await imgShortcode(src, alt, cls, 800);
+  }
+  
+  async function smallImage(src, alt, cls) {
+    return await imgShortcode(src, alt, cls, 480);
+  }
+  
+  eleventyConfig.addNunjucksAsyncShortcode("smallImage", smallImage);
+  eleventyConfig.addNunjucksAsyncShortcode("mediumImage", mediumImage);
+  eleventyConfig.addNunjucksAsyncShortcode("largeImage", largeImage);
   
   return {
     dir: {

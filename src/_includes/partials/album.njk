@@ -1,11 +1,11 @@
-{% macro album(title, url, featured) %}
 <article class="album__wrapper entry">
   <header class="album__header entry__header">
     <span class="entry__published dt-published">{{ date | date  }}</span>
     <h2 class="entry__title"><a href="{{url}}">{{title}}</a></h2>
   </header>
   {% if featured %}
-    <img class="album__image" src="{{featured}}" alt=""/>
+    <div class="album__imagewrapper">
+      {% mediumImage featured, "", "album__image" %}
+    </div>
   {% endif %}
 </article>
-{% endmacro %}

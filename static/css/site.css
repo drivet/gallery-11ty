@@ -114,10 +114,25 @@ h6 {
   gap: 0.5em;
 }
 
+.album__imagewrapper {
+  display: block;
+  width: 100%;
+  position: relative;
+  padding-bottom: 75%;
+  overflow: hidden;
+  margin: 1em 0;
+  border-radius: 0.5em;
+}
+
 .album__image {
   max-width: 100%;
   height: auto;
-  border-radius: 0.5em;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  display: block;
+  margin-bottom: 1em;
 }
 
 .gallery-list {
@@ -144,6 +159,11 @@ h6 {
   transform: translate(-50%, -50%);
   height: 100%;
   width: auto;
+}
+
+.gallery-list__image.portrait {
+  width: 100%;
+  height: auto;
 }
 
 .image-photo {

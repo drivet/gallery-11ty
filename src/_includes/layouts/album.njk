@@ -3,7 +3,6 @@ permalink: "{{ key }}/index.html"
 layout: layouts/base
 navigation: true
 ---
-{% from "partials/album.njk" import album %}
 <article class="entry">
   <header class="entry__header">
     <span class="entry__published dt-published">{{ date | date  }}</span>
@@ -23,7 +22,7 @@ navigation: true
       {% asyncEach a in navPages %}      
       <li class="gallery-list__item">
         <a href="{{a.url}}">
-          <img class="gallery-list__image" src="{{a.image}}" width=200 alt=""/>
+          {% smallImage a.image, "", "gallery-list__image" %}
         </a>
       </li>
        {% endeach %}
@@ -35,7 +34,11 @@ navigation: true
     <ul class="album-list">
       {% asyncEach a in navPages | sort(true, false, 'date') %}      
       <li class="album-list__album-item">
-        {{ album(a.title, a.url, a.featured) }}
+        {% set url = a.url %}
+        {% set title = a.title %}
+        {% set featured = a.featured %}
+        {% set date = a.date %}
+        {% include "partials/album.njk" %}
       </li>
       {% endeach %}
     </ul>

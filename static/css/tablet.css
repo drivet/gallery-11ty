@@ -19,4 +19,11 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
   }
+
+  .image-photo.portrait {
+    width: 600px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+  }
 }

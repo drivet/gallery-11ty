@@ -10,5 +10,5 @@ eleventyComputed:
     <h1 class="entry__title">{{title}}</h1>
     {% include "partials/navalbum.njk" %}
   </header>
-  <img class="image-photo" src="{{ image }}" alt="{{ alt }}" />
+  {% largeImage image, "", "image-photo" %}
 <article>

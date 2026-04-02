@@ -1,7 +1,6 @@
 ---
 layout: layouts/base
 ---
-{% from "partials/album.njk" import album %}
 <article class="entry">
   <header class="entry__header">
     <h1 class="entry__title">{{title}}</h1>
@@ -12,7 +11,11 @@ layout: layouts/base
   <ul class="album-list">
     {% asyncEach a in collections.rootAlbums | sort(true, false, 'date')  %}      
     <li class="album-list__album-item">
-      {{ album(a.data.title, a.url, a.data.featured) }}
+      {% set url = a.url %}
+      {% set title = a.data.title %}
+      {% set featured = a.data.featured %}
+      {% set date = a.date %}
+      {% include "partials/album.njk" %}
     </li>
   {% endeach %}
   </ul>
