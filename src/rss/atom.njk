@@ -1,0 +1,58 @@
+---json
+{
+ "pagination": {
+    "data": "feedData",
+    "size": 1
+  },
+  "permalink": "{{pagination.items[0].permalink}}",
+  "eleventyExcludeFromCollections": true,
+  "feedData": [
+    {
+      "collection": "leafAlbums",
+      "permalink": "all.xml",
+      "title":  "All albums",
+      "description": "A feed containing all my albums as they are posted",
+      "language": "en",
+      "base": "https://albums.desmondrivet.com/",
+      "author": {
+        "name": "Desmond Rivet"
+      }
+    },
+    {
+      "collection": "rootAlbums",
+      "permalink": "root.xml",
+      "title":  "Root albums",
+      "description": "A feed for all the albums and groups that appear on the top page",
+      "language": "en",
+      "base": "https://albums.desmondrivet.com/",
+      "author": {
+        "name": "Desmond Rivet"
+      }
+    }
+  ]
+}
+---
+{%- set metadata = pagination.items[0] -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ metadata.language or page.lang }}">
+  <title>{{ metadata.title }}</title>
+  <subtitle>{{ metadata.description }}</subtitle>
+  <link href="{{ metadata.permalink | htmlBaseUrl(metadata.base) }}" rel="self" />
+  <link href="{{ metadata.base | addPathPrefixToFullUrl }}" />
+  
+  <updated>{{ collections[metadata.collection] | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+  <id>{{ metadata.base | addPathPrefixToFullUrl }}</id>
+  <author>
+    <name>{{ metadata.author.name }}</name>
+  </author>
+  {%- for post in collections[metadata.collection] | reverse %}
+  {%- set absolutePostUrl %}{{ post.url | htmlBaseUrl(metadata.base) }}{% endset %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="{{ absolutePostUrl }}" />
+    <updated>{{ post.date | dateToRfc3339 }}</updated>
+    <id>{{ absolutePostUrl }}</id>
+    <content type="html">{{ post.data.key | childSummary(collections.entryInfoByKey) }}</content>
+  </entry>
+  {%- endfor %}
+</feed>

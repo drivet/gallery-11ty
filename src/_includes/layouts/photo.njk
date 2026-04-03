@@ -4,7 +4,7 @@ layout: layouts/base
 navigation: true
 ---
 {% set albumImages = collections.albumsAndImages | eleventyNavigation(parent) %}
-{% set photoContext = albumImages | photoContext(collections.albumByKey, key, parent) %}
+{% set photoContext = albumImages | photoContext(collections.entryByKey, key, parent) %}
 {% set title = photoContext.defaultTitle %}
 
 {% macro exifinfo(data, icon) %}

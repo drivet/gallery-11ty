@@ -12,7 +12,7 @@ navigation: true
   {{ content | safe }}
   {% set navPages = collections.albumsAndImages |
         eleventyNavigation(eleventyNavigation.key) |
-        navToPage(collections.albumByKey) %}
+        navToPage(collections.entryByKey) %}
   {% set count = navPages | length %}
  
   {% if navPages[0].image %}
@@ -38,6 +38,7 @@ navigation: true
         {% set title = a.title %}
         {% set featured = a.featured %}
         {% set date = a.date %}
+        {% set key = a.key %}
         {% include "partials/album.njk" %}
       </li>
       {% endeach %}

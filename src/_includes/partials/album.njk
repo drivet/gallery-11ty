@@ -2,6 +2,7 @@
   <header class="album__header entry__header">
     <span class="entry__published dt-published">{{ date | date  }}</span>
     <h2 class="entry__title"><a href="{{url}}">{{title}}</a></h2>
+    {{ key | childSummary(collections.entryInfoByKey) }}
   </header>
   {% if featured %}
     <div class="album__imagewrapper">
