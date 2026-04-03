@@ -7,6 +7,14 @@ navigation: true
 {% set photoContext = albumImages | photoContext(collections.albumByKey, key, parent) %}
 {% set title = photoContext.defaultTitle %}
 
+{% macro exifinfo(data, icon) %}
+  {% if data %}
+    <div class="exif__data">
+      <span class="icon-{{icon}}"></span> {{ data }}
+    </div>
+  {% endif %}
+{% endmacro %}
+
 <article class="entry">
   <header class="entry__header">
     <h1 class="entry__title">{{title}}</h1>
@@ -26,4 +34,12 @@ navigation: true
     </div>
   </header>
   {% largeImage image, "", "image-photo" %}
-  <article>
+  {% set exifdata = image | exif %}
+  <div class="exif">
+    {{ exifinfo(exifdata.DateTimeOriginal | date, "calendar") }}
+    {{ exifinfo(exifdata | camera, "camera") }}
+    {{ exifinfo(exifdata | fnum, "aperture") }}
+    {{ exifinfo(exifdata | iso, "film") }}
+    {{ exifinfo(exifdata | shutter, "timer") }}
+  </div>
+<article>

@@ -6,13 +6,16 @@ import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
 import _ from 'lodash';
 import Image from "@11ty/eleventy-img";
+import exifr from 'exifr';
+import pluginRss from "@11ty/eleventy-plugin-rss";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default async function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
-
+  eleventyConfig.addPlugin(pluginRss);
+  
   eleventyConfig.addCollection("albumsAndImages", (collection) =>
     collection.getFilteredByGlob("src/albums/**/*.md")
   );
@@ -20,6 +23,25 @@ export default async function(eleventyConfig) {
   eleventyConfig.addCollection("albums", (collection) =>
     collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.image)
   );
+
+  eleventyConfig.addCollection("leafAlbums", (collection) => {
+    const allPosts = collection.getFilteredByGlob("src/albums/**/*.md");
+    const allLeafKeys = new Map();
+    allPosts.forEach(p => {
+      if (!p.data.image) {
+        return;
+      }
+      if (allLeafKeys.has(p.data.parent)) {
+        allLeafKeys.set(p.data.parent, allLeafKeys.get(p.data.parent) + 1);
+      } else {
+        allLeafKeys.set(p.data.parent, 1);
+      }
+    });
+    return allPosts.filter(p => allLeafKeys.has(p.data.key)).map(p => {
+      p.data.count = allLeafKeys.get(p.data.key);
+      return p;
+    });
+  });
   
   eleventyConfig.addCollection("rootAlbums", (collection) =>
     collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.parent && !p.data.image)
@@ -30,7 +52,7 @@ export default async function(eleventyConfig) {
   );
 
   eleventyConfig.addFilter("date", d =>
-    dayjs(d).tz('America/Montreal').format('MMM D, YYYY, h:mm A Z'));
+    d ? dayjs(d).tz('America/Montreal').format('MMM D, YYYY, h:mm A Z') : "" );
  
   eleventyConfig.addFilter('navToPage', (navNodes, albumByKey) => {
     navNodes.forEach(n => {
@@ -77,11 +99,15 @@ export default async function(eleventyConfig) {
   eleventyConfig.addFilter("cdump", o => inspect(o));
   
   eleventyConfig.addPassthroughCopy({"static": "."});
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/lucide-static/font": "css/font"
+  });
 
   async function imgUrl(src) {
     const data = await Image("src/"+src, {
       widths: ["auto"],
       formats: ["jpeg"],
+      outputDir: "_site/img"
     });
     return data["jpeg"][0].url;
   }
@@ -92,9 +118,10 @@ export default async function(eleventyConfig) {
     // the src parameter begins with /photo/* which worked when the HTML
     // transform plugin was used, but which doesn't work in this context.
     // We can compensate by tacking on a src/
-    const data = await Image("src/"+src, {
+    const data = await Image("src/" + src, {
       widths: [...widths],
       formats: ["jpeg"],
+      outputDir: "_site/img"
     }); 
     
     const allCls = data['jpeg'][0].height > data['jpeg'][0].width ? `${cls} portrait` : cls;
@@ -124,6 +151,53 @@ export default async function(eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("mediumImage", mediumImage);
   eleventyConfig.addNunjucksAsyncShortcode("largeImage", largeImage);
 
+  async function exif(src) {
+    return await exifr.parse("src/" + src);
+  }
+
+  eleventyConfig.addFilter("exif", exif);
+
+  eleventyConfig.addFilter("camera", exif => {
+    const make = exif.Make;
+    const model = exif.Model;
+
+    if (!model && !make) {
+      return null;
+    }
+
+    if (make && !model) {
+      return make;
+    }
+    
+    if (model && !make) {
+      return model;
+    }
+
+    return model.startsWith(make) ? model : `${make} ${model}`;    
+  });
+
+  eleventyConfig.addFilter("fnum", exif => {
+    if (exif.FNumber) {
+      return `f/${exif.FNumber}`;
+    }
+    return null;
+  });
+
+  eleventyConfig.addFilter("shutter", exif => {
+    if (isNaN(exif.ExposureTime)) {
+      return null;
+    }
+    const t = 1 / exif.ExposureTime;
+    return `1/${t.toFixed(2)}`;
+  });
+
+  eleventyConfig.addFilter("iso", exif => {
+    if (isNaN(exif.ISO)) {
+      return null;
+    }
+    return `ISO ${exif.ISO}`;
+  });
+  
   return {
     dir: {
       input: 'src'

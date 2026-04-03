@@ -216,3 +216,13 @@ h6 {
   padding: 1em 0em;
   border-top: 1px solid var(--lightest-color);
 }
+
+.exif {
+  margin-top: 1em;
+}
+
+.exif__data {
+  display: flex;
+  align-items: cneter;
+  gap: 0.25em;
+}
