@@ -186,6 +186,29 @@ h6 {
   content: "\00a0/\00a0";
 }
 
+.entry__imagenav {
+  display: flex;
+  margin: 1em 0 1em 0;
+}
+
+.entry__prevctrl {
+  justify-content: flex-start;
+}
+
+.entry__downctrl {
+  justify-content: center;
+}
+
+.entry__nextctrl {
+  justify-content: flex-end;
+  
+}
+
+.entry_imagenavctrl {
+  flex: 1 0 auto;
+  display: flex;
+}
+
 .main-footer {
   font-size: var(--font-size-smaller);
   max-width: 100%;
