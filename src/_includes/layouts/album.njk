@@ -5,10 +5,14 @@ navigation: true
 ---
 <article class="entry">
   <header class="entry__header">
-    <span class="entry__published dt-published">{{ date | date  }}</span>
     <h1 class="entry__title">{{title}}</h1>
+    <div class=""entry__date>
+      <span class="icon-calendar"></span> <span class="entry__published dt-published">{{ date | date  }}</span>
+    </div>
     {% include "partials/navalbum.njk" %}
-    {{ key | childSummary(collections.entryInfoByKey) }}
+    <div class="entry__summary">
+      {{ key | childSummary(collections.entryInfoByKey) }}
+    </div>
   </header>
   {{ content | safe }}
   

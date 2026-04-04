@@ -34,10 +34,6 @@ export default async function(eleventyConfig) {
     collection.getFilteredByGlob("src/albums/**/*.md").filter(p => !p.data.parent && !p.data.image)
   );
   
-  eleventyConfig.addCollection('entryByKey', (collection) =>
-    _.keyBy(collection.getFilteredByGlob("src/albums/**/*.md"), p => p.data.key)
-  );
-
   eleventyConfig.addCollection('entryInfoByKey', (collection) => {
     const allPosts = collection.getFilteredByGlob("src/albums/**/*.md");
     const postDict = {};
@@ -87,44 +83,26 @@ export default async function(eleventyConfig) {
 
   eleventyConfig.addFilter("date", d =>
     d ? dayjs(d).tz('America/Montreal').format('MMM D, YYYY, h:mm A Z') : "" );
- 
-  eleventyConfig.addFilter('navToPage', (navNodes, entryByKey) => {
-    navNodes.forEach(n => {
-      if (!n.key) {
-        return;
-      }
-      
-      const r = entryByKey[n.key];
-      if (!r || !r.data) {
-        return;
-      }
 
-      n.date = r.data.date;
-      n.album = r.data.album;
-      n.featured = r.data.featured;
-      n.image = r.data.image;
-      n.content = r.content;
-    });
-    return navNodes;
-  });
+  eleventyConfig.addFilter('photoContext', (photoKey, parentKey, entryInfoByKey) => {
+    const parentInfo = entryInfoByKey[parentKey];
+    const imageNodes = parentInfo.children;
+    const photoIdx = imageNodes.findIndex(e => e.data.key === photoKey );
 
-  eleventyConfig.addFilter('photoContext', (albumNodes, entryByKey, photoKey, parentKey) => {
-    const photoIdx = albumNodes.findIndex(e => e.key === photoKey );
-
-    const parentNode = entryByKey[parentKey];
-    const defaultTitle = `${parentNode.data.title} / ${photoIdx + 1} of ${albumNodes.length}`;
+    const parentNode = parentInfo.node;
+    const defaultTitle = `${parentNode.data.title} / ${photoIdx + 1} of ${imageNodes.length}`;
     
     let prevUrl;
     if (photoIdx > 0) {
-      const prevNavNode = albumNodes[photoIdx-1];
-      const prevNode = entryByKey[prevNavNode.key];
+      const prevNavNode = imageNodes[photoIdx-1];
+      const prevNode = entryInfoByKey[prevNavNode.data.key].node;
       prevUrl = prevNode.url;
     }
 
     let nextUrl;
-    if ((photoIdx + 1) < albumNodes.length) {
-      const nextNavNode = albumNodes[photoIdx + 1];
-      const nextNode = entryByKey[nextNavNode.key];
+    if ((photoIdx + 1) < imageNodes.length) {
+      const nextNavNode = imageNodes[photoIdx + 1];
+      const nextNode = entryInfoByKey[nextNavNode.data.key].node;
       nextUrl = nextNode.url;
     }
     return {defaultTitle, prevUrl, nextUrl};

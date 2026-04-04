@@ -3,8 +3,7 @@ permalink: "{{parent}}/{{page.fileSlug}}.html"
 layout: layouts/base
 navigation: true
 ---
-{% set albumImages = collections.albumsAndImages | eleventyNavigation(parent) %}
-{% set photoContext = albumImages | photoContext(collections.entryByKey, key, parent) %}
+{% set photoContext = key | photoContext(parent, collections.entryInfoByKey) %}
 {% set title = photoContext.defaultTitle %}
 
 {% macro exifinfo(data, icon) %}
