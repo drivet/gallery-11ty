@@ -4,10 +4,10 @@ layout: layouts/base
 <article class="entry">
   <header class="entry__header">
     <h1 class="entry__title">{{title}}</h1>
+    {% set count = collections.rootAlbums | length %}
+    {{ count }} albums
   </header> 
   {{ content | safe }}
-  {% set count = collections.rootAlbums | length %}
-  {{ count }} albums
   <ul class="album-list">
     {% asyncEach a in collections.rootAlbums | sort(true, false, 'date')  %}      
     <li class="album-list__album-item">

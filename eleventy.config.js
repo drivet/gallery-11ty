@@ -74,8 +74,15 @@ export default async function(eleventyConfig) {
     if (entryInfo.children.length === 0) {
       return "";
     }
-    const itemLabel = entryInfo.children[0].data.image ? "photo(s)" : "album(s)";
+    const itemLabel = entryInfo.children[0].data.image ? "photos" : "albums";
     return `${entryInfo.children.length} ${itemLabel}`;
+  });
+
+  eleventyConfig.addFilter("albumChildren", (albumKey, entryInfoByKey) => {
+    if (!(albumKey in entryInfoByKey)) {
+      return null;
+    }
+    return entryInfoByKey[albumKey].children;
   });
 
   eleventyConfig.addFilter("date", d =>

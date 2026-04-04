@@ -8,37 +8,32 @@ navigation: true
     <span class="entry__published dt-published">{{ date | date  }}</span>
     <h1 class="entry__title">{{title}}</h1>
     {% include "partials/navalbum.njk" %}
+    {{ key | childSummary(collections.entryInfoByKey) }}
   </header>
   {{ content | safe }}
-  {% set navPages = collections.albumsAndImages |
-        eleventyNavigation(eleventyNavigation.key) |
-        navToPage(collections.entryByKey) %}
-  {% set count = navPages | length %}
+  
+  {% set navPages = key | albumChildren(collections.entryInfoByKey) %}
  
-  {% if navPages[0].image %}
-   
-    {{ count }} photos
+  {% if navPages[0].data.image %}
     <ul class="gallery-list">
       {% asyncEach a in navPages %}      
       <li class="gallery-list__item">
         <a href="{{a.url}}">
-          {% smallImage a.image, "", "gallery-list__image" %}
+          {% smallImage a.data.image, "", "gallery-list__image" %}
         </a>
       </li>
        {% endeach %}
     </ul>
     
   {% else %}
-
-    {{ count }} albums
     <ul class="album-list">
       {% asyncEach a in navPages | sort(true, false, 'date') %}      
       <li class="album-list__album-item">
         {% set url = a.url %}
-        {% set title = a.title %}
-        {% set featured = a.featured %}
-        {% set date = a.date %}
-        {% set key = a.key %}
+        {% set title = a.data.title %}
+        {% set featured = a.data.featured %}
+        {% set date = a.data.date %}
+        {% set key = a.data.key %}
         {% include "partials/album.njk" %}
       </li>
       {% endeach %}
