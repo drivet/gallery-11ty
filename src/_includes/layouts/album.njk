@@ -6,11 +6,11 @@ navigation: true
 <article class="entry">
   <header class="entry__header">
     <h1 class="entry__title">{{title}}</h1>
-    <div class=""entry__date>
+    <div class="entry__item entry__date">
       <span class="icon-calendar"></span> <span class="entry__published dt-published">{{ date | date  }}</span>
     </div>
     {% include "partials/navalbum.njk" %}
-    <div class="entry__summary">
+    <div class="entry__item entry__summary">
       {{ key | childSummary(collections.entryInfoByKey) }}
     </div>
   </header>

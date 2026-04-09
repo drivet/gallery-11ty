@@ -6,3 +6,4 @@ layout: "layouts/album.njk"
 key: "2012-san-francisco"
 ---
 
+I visited San Francisco in 2012 for a JavaOne conference.

@@ -6,3 +6,5 @@ layout: "layouts/album.njk"
 key: "2005-jackie-visit"
 ---
 
+I visited my sister, who used to live in the Middle East, in 2005. I also
+took the oppourtunity to visit a bit of England while I was at it.

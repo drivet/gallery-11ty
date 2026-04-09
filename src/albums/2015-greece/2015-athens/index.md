@@ -7,3 +7,5 @@ layout: "layouts/album.njk"
 key: "2015-athens"
 ---
 
+Athens was a little loud and disappointing, but there were a lot of ruins,
+which were cool.

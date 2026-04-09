@@ -6,3 +6,4 @@ layout: "layouts/album.njk"
 key: "2013-eastern-townships"
 ---
 
+Visited the eastern townships of Quebec to see the fall colours.

@@ -6,3 +6,4 @@ layout: "layouts/album.njk"
 key: "2012-saint-henri"
 ---
 
+Just some random snaps from around my neighbourhood.

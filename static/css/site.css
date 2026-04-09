@@ -92,21 +92,6 @@ h6 {
   font-weight: bold;
 }
 
-.entry__header {
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-
-.entry__title {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.entry__published {
-  font-size: var(--font-size-smaller);
-  color: var(--lighter-color);
-}
-
 .album-list {
   list-style: none; 
   padding-left: 0;
@@ -186,6 +171,24 @@ h6 {
   content: "\00a0/\00a0";
 }
 
+.entry__header {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.entry__title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.entry__item {
+  font-size: var(--font-size-smaller);
+}
+
+.entry__published {
+  color: var(--lighter-color);
+}
+
 .entry__imagenav {
   display: flex;
   margin: 1em 0 1em 0;
@@ -201,12 +204,17 @@ h6 {
 
 .entry__nextctrl {
   justify-content: flex-end;
-  
 }
 
 .entry_imagenavctrl {
   flex: 1 0 auto;
   display: flex;
+}
+
+.entry__subscribe {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
 }
 
 .entry__date {
@@ -215,8 +223,9 @@ h6 {
   gap: 0.25em;
 }
 
-.entry__summary {
-   font-size: var(--font-size-smaller);
+.entry__infoline {
+  display: flex;
+  gap: 0.5em;
 }
 
 .main-footer {

@@ -5,7 +5,22 @@ layout: layouts/base
   <header class="entry__header">
     <h1 class="entry__title">{{title}}</h1>
     {% set count = collections.rootAlbums | length %}
-    {{ count }} albums
+    
+    <div class="entry__infoline">
+      <div class="entry__item">
+        {{ count }} albums
+      </div>
+      &middot;
+      <div class="entry__subscribe entry__item">
+        <span class="icon-rss" title="Subscribe"></span>
+        <a href="/root.xml" title="A feed of all first-level items">Top level albums</a>
+      </div>
+      &middot;
+      <div class="entry__subscribe entry__item">
+        <span class="icon-rss" title="Subscribe"></span>
+        <a href="/all.xml" title="A feed of all albums (containing only photos)">All albums</a>
+      </div>
+    </div>
   </header> 
   {{ content | safe }}
   <ul class="album-list">

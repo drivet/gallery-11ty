@@ -6,3 +6,4 @@ layout: "layouts/album.njk"
 key: "2013-lyon"
 ---
 
+We visited our friend Sid who lives in Lyon in 2013. Saw some cool stuff.

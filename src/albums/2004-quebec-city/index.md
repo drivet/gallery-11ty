@@ -6,3 +6,5 @@ layout: "layouts/album.njk"
 key: "2004-quebec-city"
 ---
 
+I went to stay in Quebec for a couple of days in the summer
+of 2004. Beautiful place.

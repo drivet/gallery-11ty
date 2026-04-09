@@ -7,3 +7,5 @@ layout: "layouts/album.njk"
 key: "2015-giants-athens"
 ---
 
+I don't recall giants being such a big part of Greek Mythology, but there
+were a lot of these pieces. Maybe they meant Titans?

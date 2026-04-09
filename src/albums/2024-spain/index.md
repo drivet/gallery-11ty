@@ -5,3 +5,5 @@ featured: "/photos/2024-plaza-de-espana/PXL_20240923_101829838_v1.jpg"
 layout: "layouts/album.njk"
 key: "2024-spain"
 ---
+
+Evelyn and I took a 10 day trip to Spain in September 2024.

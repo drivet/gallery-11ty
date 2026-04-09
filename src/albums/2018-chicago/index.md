@@ -6,3 +6,4 @@ layout: "layouts/album.njk"
 key: "2018-chicago"
 ---
 
+Part of a combined trip with New York in 2018 to use up some Air Miles.

@@ -1,16 +1,16 @@
 <article class="album__wrapper entry">
   <header class="album__header entry__header">
     <h2 class="entry__title"><a href="{{url}}">{{title}}</a></h2>
-    <div class=""entry__date>
+    <div class="entry__item entry__date">
       <span class="icon-calendar"></span> <span class="entry__published dt-published">{{ date | date  }}</span>
     </div>
-    <div class="entry__summary">
+    <div class="entry__item entry__summary">
       {{ key | childSummary(collections.entryInfoByKey) }}
     </div>
   </header>
   {% if featured %}
     <div class="album__imagewrapper">
-      {% mediumImage featured, "", "album__image" %}
+      <a href="{{url}}">{% mediumImage featured, "", "album__image" %}</a>
     </div>
   {% endif %}
 </article>

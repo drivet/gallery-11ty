@@ -7,3 +7,4 @@ layout: "layouts/album.njk"
 key: "2015-santorini"
 ---
 
+This island is gorgeous, which isn't a secret, which makes it less gorgeous.

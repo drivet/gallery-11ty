@@ -5,3 +5,5 @@ featured: "/photos/2015-santorini/IMG_0274.JPG"
 layout: "layouts/album.njk"
 key: "2015-greece"
 ---
+
+We visited Greece for 10 days in 2015. Beautiful place.

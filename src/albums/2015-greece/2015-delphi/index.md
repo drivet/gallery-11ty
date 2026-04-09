@@ -7,3 +7,5 @@ layout: "layouts/album.njk"
 key: "2015-delphi"
 ---
 
+Delphi was apparently called the navel of the world by the ancient Greeks
+and it's not hard to see why.  The views are spectacular.

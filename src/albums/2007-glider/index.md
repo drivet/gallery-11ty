@@ -6,3 +6,5 @@ layout: "layouts/album.njk"
 key: "2007-glider"
 ---
 
+I won a trip on a glider. I took these pictures through the sweat on my
+palms and forehead.
