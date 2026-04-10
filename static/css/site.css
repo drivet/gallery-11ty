@@ -99,6 +99,11 @@ h6 {
   gap: 0.5em;
 }
 
+.album-list__album-item {
+  margin-top: 2.2em;
+  margin-bottom: 2.2em;
+}
+
 .album__imagewrapper {
   display: block;
   width: 100%;

@@ -88,9 +88,6 @@ export default async function(eleventyConfig) {
     const parentInfo = entryInfoByKey[parentKey];
     const imageNodes = parentInfo.children;
     const photoIdx = imageNodes.findIndex(e => e.data.key === photoKey );
-
-    const parentNode = parentInfo.node;
-    const defaultTitle = `${parentNode.data.title} / ${photoIdx + 1} of ${imageNodes.length}`;
     
     let prevUrl;
     if (photoIdx > 0) {
@@ -105,7 +102,14 @@ export default async function(eleventyConfig) {
       const nextNode = entryInfoByKey[nextNavNode.data.key].node;
       nextUrl = nextNode.url;
     }
-    return {defaultTitle, prevUrl, nextUrl};
+    return {prevUrl, nextUrl};
+  });
+
+  eleventyConfig.addFilter('defaultPhotoTitle', (photoKey, parentKey, entryInfoByKey) => {
+    const parentInfo = entryInfoByKey[parentKey];
+    const imageNodes = parentInfo.children;
+    const photoIdx = imageNodes.findIndex(e => e.data.key === photoKey );
+    return `${parentInfo.node.data.title} / ${photoIdx + 1} of ${imageNodes.length}`;
   });
 
   eleventyConfig.addFilter("cdump", o => inspect(o));

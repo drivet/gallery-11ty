@@ -47,7 +47,11 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
     }
-   
+    
+    .album-list__album-item {
+      margin: 0;
+    }
+
     .image-photo.portrait {
       width: 800px;
       height: auto;

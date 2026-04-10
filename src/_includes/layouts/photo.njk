@@ -2,9 +2,10 @@
 permalink: "{{parent}}/{{page.fileSlug}}.html"
 layout: layouts/base
 navigation: true
+eleventyComputed:
+  defaultTitle: "{{ key | defaultPhotoTitle(parent, collections.entryInfoByKey) }}" 
 ---
 {% set photoContext = key | photoContext(parent, collections.entryInfoByKey) %}
-{% set title = photoContext.defaultTitle %}
 
 {% macro exifinfo(data, icon) %}
   {% if data %}
@@ -16,22 +17,23 @@ navigation: true
 
 <article class="entry">
   <header class="entry__header">
-    <h1 class="entry__title">{{title}}</h1>
+    <h1 class="entry__title">{{title | d(defaultTitle)}}</h1>
     {% include "partials/navalbum.njk" %}
-    <div class="entry__imagenav">
-      {% if photoContext.prevUrl %}
-        <a class="entry_imagenavctrl entry__prevctrl" href="{{ photoContext.prevUrl }}">Previous</a>
-      {% else  %}
-        <span class="entry_imagenavctrl entry__prevctrl">Previous</span>
-      {% endif %}
-      <a class="entry_imagenavctrl entry__downctrl" href="{% imgUrl image %}">Download</a>
-      {% if photoContext.nextUrl %}
-        <a class="entry_imagenavctrl entry__nextctrl" href="{{ photoContext.nextUrl }}">Next</a>
-      {% else  %}
-        <span class="entry_imagenavctrl entry__nextctrl">Next</span>
-      {% endif %}
-    </div>
   </header>
+  {{ content | safe }}
+  <nav class="entry__imagenav">
+    {% if photoContext.prevUrl %}
+      <a class="entry_imagenavctrl entry__prevctrl" href="{{ photoContext.prevUrl }}">Previous</a>
+    {% else  %}
+      <span class="entry_imagenavctrl entry__prevctrl">Previous</span>
+    {% endif %}
+    <a class="entry_imagenavctrl entry__downctrl" href="{% imgUrl image %}">Download</a>
+    {% if photoContext.nextUrl %}
+      <a class="entry_imagenavctrl entry__nextctrl" href="{{ photoContext.nextUrl }}">Next</a>
+    {% else  %}
+      <span class="entry_imagenavctrl entry__nextctrl">Next</span>
+    {% endif %}
+  </nav>
   {% largeImage image, "", "image-photo" %}
   {% set exifdata = image | exif %}
   <div class="exif">

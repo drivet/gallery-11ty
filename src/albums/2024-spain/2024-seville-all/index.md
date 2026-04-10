@@ -5,4 +5,7 @@ featured: "/photos/2024-seville/PXL_20240923_180629540_v1.jpg"
 layout: "layouts/album.njk"
 parent: "2024-spain"
 key: "2024-seville-all"
+description: "More touristy than I had hoped, Seville was still a beautiful city."
 ---
+
+More touristy than I had hoped, Seville was still a beautiful city.

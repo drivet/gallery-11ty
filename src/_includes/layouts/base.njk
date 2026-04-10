@@ -4,6 +4,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if description %}
+    <meta name="description" content="{{description}}" />
+    {% endif %}
+    <meta property="og:site_name" content="{{ global.SITENAME }}" />
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{{title | d(defaultTitle)}}"/>
+    <meta property="og:url" content="{{ page.url }}"/>
+    {% if description %}
+    <meta property="og:description" content="{{description}}" />
+    {% endif %}
+    {% set m_image = image or featured %}
+    {% if m_image %}
+    <meta property="og:image" content="{{ m_image }}"/> 
+    {% endif %}
+
+    {% if global.AUTHOR %}
+    <meta name="author" content="{{ global.AUTHOR }}" />
+    {% endif %}
+
+    <title>{{title | d(defaultTitle)}} - {{ global.SITENAME }}</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon_data/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon_data/icon-32x32.png">
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto|Open+Sans&display=swap" rel="stylesheet"/>
