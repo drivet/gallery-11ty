@@ -16,7 +16,7 @@
     {% endif %}
     {% set m_image = image or featured %}
     {% if m_image %}
-    <meta property="og:image" content="{{ m_image }}"/> 
+    <meta property="og:image" content="{% ogImage m_image  %}"/> 
     {% endif %}
 
     {% if global.AUTHOR %}

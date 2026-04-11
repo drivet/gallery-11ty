@@ -129,7 +129,16 @@ export default async function(eleventyConfig) {
   }
   eleventyConfig.addNunjucksAsyncShortcode("imgUrl", imgUrl);
 
-  
+  async function ogImage(src) {
+    const data = await Image("src/"+src, {
+      widths: [1200],
+      formats: ["jpeg"],
+      outputDir: "_site/img"
+    });
+    return data["jpeg"][0].url;
+  }
+  eleventyConfig.addNunjucksAsyncShortcode("ogImage", ogImage);
+
   async function imgShortcode(src, alt, cls, widths) {
     // the src parameter begins with /photo/* which worked when the HTML
     // transform plugin was used, but which doesn't work in this context.
