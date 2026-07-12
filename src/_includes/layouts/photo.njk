@@ -1,5 +1,5 @@
 ---
-permalink: "{{parent}}/{{page.fileSlug}}.html"
+permalink: "{{parent}}/{{image | photoHash }}.html"
 layout: layouts/base
 navigation: true
 eleventyComputed:
@@ -42,5 +42,8 @@ eleventyComputed:
     {{ exifinfo(exifdata | fnum, "aperture") }}
     {{ exifinfo(exifdata | iso, "film") }}
     {{ exifinfo(exifdata | shutter, "timer") }}
+    <div class="exif__data">
+      <span class="icon-file"></span> {{ page.fileSlug }}
+    </div>
   </div>
 <article>

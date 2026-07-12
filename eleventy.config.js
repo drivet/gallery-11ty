@@ -8,13 +8,45 @@ import _ from 'lodash';
 import Image from "@11ty/eleventy-img";
 import exifr from 'exifr';
 import pluginRss from "@11ty/eleventy-plugin-rss";
+import sharp from 'sharp';
+import crypto from 'crypto';
+import fs from 'fs';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+let hashFile = null;
+const CACHE_DIR = '.cache/';
+
+function loadCached() {
+  if (hashFile !== null) {
+    return hashFile;
+  }
+
+  const filePath = `${CACHE_DIR}/imghashes.json`;
+  if (fs.existsSync(filePath)) {
+    const cacheFile = fs.readFileSync(filePath);
+    hashFile = JSON.parse(cacheFile);
+  } else {
+    hashFile = {};
+  }
+  return hashFile;
+}
+
+function saveHashes() {
+  const filePath = `${CACHE_DIR}/imghashes.json`;
+  const fileContent = JSON.stringify(hashFile, null, 2);
+  // create cache folder if it doesnt exist already
+  if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR);
+  }
+
+  fs.writeFileSync(filePath, fileContent);
+}
+
 export default async function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
-  eleventyConfig.addPlugin(pluginRss);
+  eleventyConfig.addPlugin(pluginRss);crypto
   
   eleventyConfig.addCollection("albumsAndImages", (collection) =>
     collection.getFilteredByGlob("src/albums/**/*.md")
@@ -176,6 +208,31 @@ export default async function(eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("mediumImage", mediumImage);
   eleventyConfig.addNunjucksAsyncShortcode("largeImage", largeImage);
 
+  async function getPixelHash(imagePath) {
+    // Extract raw pixel data only
+    const rawBuffer = await sharp(imagePath)
+          .raw()
+          .toBuffer();
+
+    // Generate a standard SHA-256 hash of the pixel bytes
+    const hash = crypto.createHash('sha256').update(rawBuffer).digest('hex');
+    return hash;
+  }
+
+  eleventyConfig.addFilter("photoHash", async (src) => {
+    const cached = loadCached();
+    if (!(src in cached)) {
+      cached[src] = await getPixelHash('src/' + src);
+    }
+    const hash = cached[src];
+    const truncated = `${hash}`;
+    return truncated.slice(0, 16);
+  });
+  
+  eleventyConfig.on('eleventy.after', () => {
+    saveHashes();
+  });
+  
   async function exif(src) {
     return await exifr.parse("src/" + src);
   }
